@@ -29,8 +29,6 @@ import java.util.stream.Collectors;
 
 public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
 
-    // MethodArgumentTypeMismatchException
-
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e, WebRequest request) {
         log.warn("ConstraintViolationException:", e);
@@ -47,7 +45,7 @@ public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, "Invalid URL parameters", request, validationErrors);
     }
 
-    /** Request Parameters Type mismatch*/
+    /** Request Parameters Type mismatch */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, WebRequest request) {
         log.warn("MethodArgumentTypeMismatchException:", e);

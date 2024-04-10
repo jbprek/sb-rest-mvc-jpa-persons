@@ -18,8 +18,8 @@ import java.util.List;
 public class PersonApiController {
 
     private final PersonDaoService daoService;
-
     @PostMapping
+    @Validated(OnCreateValidation.class)
     public PersonOutDto create(@RequestBody @Valid final PersonInDto dto) {
        return daoService.createPerson(dto);
     }
@@ -35,6 +35,7 @@ public class PersonApiController {
     }
 
     @PutMapping(path = "/{id}")
+    @Validated(OnUpdateValidation.class)
     public PersonOutDto update(@PathVariable @Min(1) Long id, @RequestBody @Valid PersonInDto dto) {
         return daoService.updatePerson(id, dto);
     }

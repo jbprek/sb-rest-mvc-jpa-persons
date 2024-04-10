@@ -14,14 +14,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PersonInDto {
 
-    @NotBlank(groups = PersonCreateValidation.class)
+    @NotBlank(groups = OnCreateValidation.class)
     String firstName;
-    @NotBlank(groups = PersonCreateValidation.class)
+    @NotBlank(groups = OnCreateValidation.class)
     String lastName;
-    @NotNull(groups = PersonCreateValidation.class)
-    @Past
+    @NotNull(groups = OnCreateValidation.class)
+    @Past(groups = {OnCreateValidation.class, OnUpdateValidation.class})
     LocalDate birthDate;
-    @NotBlank(groups = PersonCreateValidation.class)
+    @NotBlank(groups = OnCreateValidation.class)
     String country;
 
 }
