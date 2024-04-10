@@ -14,3 +14,4 @@ Spring Boot, MVC Rest on top of H2
 - TODO Testing 
 - TODO Validation
 - TODO Error Handling
+- TODO Optimistic Locking - Retry test

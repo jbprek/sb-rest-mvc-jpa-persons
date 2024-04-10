@@ -1,7 +1,7 @@
 package com.foo.app.service;
 
 import com.foo.app.db.PersonEntity;
-import com.foo.app.rest.PersonDto;
+import com.foo.app.rest.PersonInDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -66,8 +66,7 @@ class PersonMapperTest {
     @DisplayName("Test DTO to Entity mapping, method PersonMapper#dtoToEntity")
     @Test
     void testDtoToEntity() {
-        var dto = PersonDto.builder()
-                .id(1L)
+        var dto = PersonInDto.builder()
                 .firstName("John")
                 .lastName("Doe")
                 .birthDate(LocalDate.of(2000, 1, 1))
@@ -78,7 +77,6 @@ class PersonMapperTest {
 
         assertAll(
                 () -> assertNotNull(entity),
-                () -> assertNotEquals(dto.getId(), entity.getId()),
                 () -> assertEquals(dto.getFirstName(), entity.getFirstName()),
                 () -> assertEquals(dto.getLastName(), entity.getLastName()),
                 () -> assertEquals(dto.getBirthDate(), entity.getBirthDate()),
@@ -89,7 +87,7 @@ class PersonMapperTest {
     @DisplayName("Test partial update of Entity from a DTO, method PersonMapper#updateEntity")
     @Test
     void testEntityUpdateFromDto() {
-        var dto = PersonDto.builder()
+        var dto = PersonInDto.builder()
                 .birthDate(LocalDate.of(2001, 2, 1))
                 .build();
 
