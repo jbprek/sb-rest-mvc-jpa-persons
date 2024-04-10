@@ -1,15 +1,19 @@
 package com.foo.app.rest;
 
+import com.foo.app.service.exception.PersonDaoException;
+import com.foo.app.service.exception.PersonDaoExistsException;
+import com.foo.app.service.exception.PersonDaoNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolation;
@@ -25,8 +29,9 @@ import java.util.stream.Collectors;
 
 public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
 
+    // MethodArgumentTypeMismatchException
+
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e, WebRequest request) {
         log.warn("ConstraintViolationException:", e);
 
@@ -42,8 +47,18 @@ public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, "Invalid URL parameters", request, validationErrors);
     }
 
+    /** Request Parameters Type mismatch*/
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, WebRequest request) {
+        log.warn("MethodArgumentTypeMismatchException:", e);
+
+        var validationErrors = List.of(new ErrorDto.ValidationError(e.getName(), "Invalid type"));
+
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, "Invalid URL parameter, type  name:"+e.getName(), request, validationErrors);
+    }
+
+    /** Request Parameters Validation errors */
     @Override
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         var fieldErrors = ex.getBindingResult().getFieldErrors().stream()
@@ -53,6 +68,40 @@ public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, "Invalid payload", request, fieldErrors);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        log.error("handleExceptionInternal - Internal error", ex);
+        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
+            request.setAttribute("javax.servlet.error.exception", ex, 0);
+        }
+
+        return new ResponseEntity(body, headers, status);
+    }
+
+    @ExceptionHandler(PersonDaoNotFoundException.class)
+    public ResponseEntity<Object> handlePersonDaoNotFoundException(PersonDaoNotFoundException itemNotFoundException, WebRequest request) {
+        log.warn("Failed to find the requested element", itemNotFoundException);
+        return buildErrorResponse(itemNotFoundException, HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(PersonDaoExistsException.class)
+    public ResponseEntity<Object> handlePersonDaoExistsException(PersonDaoExistsException itemNotFoundException, WebRequest request) {
+        log.warn("Element already exists", itemNotFoundException);
+        return buildErrorResponse(itemNotFoundException, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(PersonDaoException.class)
+    public ResponseEntity<Object> handlePersonDaoException(PersonDaoException itemNotFoundException, WebRequest request) {
+        log.error("DB Error", itemNotFoundException);
+        return buildErrorResponse(itemNotFoundException, HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleAllUncaughtException(Exception ex, WebRequest request) {
+        log.error("Unknown error occurred", ex);
+        return buildErrorResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
 
     private ResponseEntity<Object> buildErrorResponse(
             HttpStatus httpStatus, String message,

@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface PersonDaoService {
 
-    public PersonOutDto createPerson(PersonInDto personDto);
-    public PersonOutDto getPerson(Long id);
-    public List<PersonOutDto> getAll();
-    public PersonOutDto updatePerson(Long personId, PersonInDto personDto);
-    public void deletePerson(Long id);
+     PersonOutDto createPerson(PersonInDto personDto);
+     PersonOutDto getPerson(Long id);
+     List<PersonOutDto> getAll();
+     PersonOutDto updatePerson(Long personId, PersonInDto personDto);
+     void deletePerson(Long id);
 
 }

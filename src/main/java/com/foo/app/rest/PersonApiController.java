@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class PersonApiController {
     }
 
     @GetMapping("/{id}")
-    public PersonOutDto read(@PathVariable @NotNull final Long id) {
+    public PersonOutDto read(@PathVariable @Min(1) final Long id) {
        return daoService.getPerson(id);
     }
 
@@ -35,12 +35,12 @@ public class PersonApiController {
     }
 
     @PutMapping(path = "/{id}")
-    public PersonOutDto update(@PathVariable @NotNull Long id, @RequestBody @Valid PersonInDto dto) {
+    public PersonOutDto update(@PathVariable @Min(1) Long id, @RequestBody @Valid PersonInDto dto) {
         return daoService.updatePerson(id, dto);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void delete(@PathVariable @NotNull Long id) {
+    public void delete(@PathVariable @Min(1) Long id) {
         daoService.deletePerson(id);
     }
 

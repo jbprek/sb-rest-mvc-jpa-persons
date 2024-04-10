@@ -1,5 +1,6 @@
 package com.foo.app.rest;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Value;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Value
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorDto {
     Instant time;
     int status;

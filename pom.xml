@@ -100,11 +100,7 @@
 							<version>${lombok-mapstruct-binding.version}</version>
 						</dependency>
 					</annotationProcessorPaths>
-<!--					<compilerArgs>-->
-<!--						<compilerArg>-->
-<!--							-Amapstruct.defaultComponentModel=spring-->
-<!--						</compilerArg>-->
-<!--					</compilerArgs>-->
+
 				</configuration>
 			</plugin>
 		</plugins>
