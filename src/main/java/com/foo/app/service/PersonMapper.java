@@ -3,6 +3,7 @@ package com.foo.app.service;
 import com.foo.app.db.PersonEntity;
 import com.foo.app.rest.PersonDto;
 import org.mapstruct.*;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 
@@ -13,17 +14,19 @@ import java.util.List;
 public interface PersonMapper {
     PersonDto entityToDTO(PersonEntity project);
 
-    List<PersonDto> entityToDTO(Iterable<PersonEntity> project);
+    List<PersonDto> entitiesToDTOs(Iterable<PersonEntity> project);
 
+    /**
+     * DTO to Entity ignores DTO.id field
+     */
     @Mapping(target = "id", ignore = true)
-    PersonEntity  dtoToEntity(PersonDto source);
+    PersonEntity dtoToEntity(PersonDto source);
 
     /**
      * Copy all non-null values from PersonDto source to PersonEntity target ('id' excluded)
-     * As of MapStruct 1.5.5 there is no way to copy only non-null source fields to target
      */
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void dtoToEntity(PersonDto source, @MappingTarget PersonEntity target);
+    void updateEntity(PersonDto source, @MappingTarget @NonNull PersonEntity target);
 
 }
 

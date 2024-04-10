@@ -1,15 +1,18 @@
 package com.foo.app.db;
 
 import javax.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "persons")
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

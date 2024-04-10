@@ -35,7 +35,7 @@ public class ApiController {
 
     @GetMapping(path = "/all")
     public List<PersonDto> readAll() {
-        return mapper.entityToDTO(repository.findAll());
+        return mapper.entitiesToDTOs(repository.findAll());
     }
 
     @PutMapping(path = "/{id}")
@@ -44,7 +44,7 @@ public class ApiController {
         var entity = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        mapper.dtoToEntity(dto, entity);
+        mapper.updateEntity(dto, entity);
         var updatedEntity = repository.save(entity);
         return ResponseEntity.status(HttpStatus.OK).body(mapper.entityToDTO(updatedEntity));
     }
