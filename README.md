@@ -3,7 +3,6 @@
 Spring Boot, MVC Rest on top of H2
 
 
-
 ## Features & Frameworks
 - MVC
 - JPA
@@ -13,5 +12,11 @@ Spring Boot, MVC Rest on top of H2
 - Validation (Groups)
 - Postman Collection
 - 
-- TODO Testing 
-- TODO Optimistic Locking - Implementation, Retry test
+- TODO OpenAPI 
+- TODO Security SSL
+
+## Use Cases
+- Create with validation
+- Update with Validation - partial update
+- Delete
+- Truncate table
