@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
 @RestControllerAdvice
-
 public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)

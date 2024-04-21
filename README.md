@@ -11,7 +11,7 @@ Spring Boot, MVC Rest on top of H2
 - Error Handling
 - Validation (Groups)
 - Postman Collection
-- 
+-  TODO Controller test, Service Integration test
 - TODO OpenAPI 
 - TODO Security SSL
 
