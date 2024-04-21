@@ -1,7 +1,11 @@
 # Spring Boot 2.7.x Application Template
 
-Spring Boot, MVC Rest on top of H2
+Spring Boot, MVC Rest , JPA
 
+## Supported versions dbs
+
+- branch sb-2.7-mysql  : Boot 2.7 Mysql
+- branch sb-2.7-h2     : Boot 2.7 H2
 
 ## Features & Frameworks
 - MVC

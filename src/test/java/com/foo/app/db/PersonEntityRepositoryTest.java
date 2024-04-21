@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
@@ -12,10 +13,11 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@DataJpaTest(properties = {
-        "spring.datasource.url=jdbc:h2:mem:testdb",
-        "spring.jpa.hibernate.ddl-auto=create-drop"},
-        showSql = true)
+
+@DataJpaTest
+/* Note the following is needed to use a MySQL test datasource, otherwise H2 is used by default */
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+
 class PersonEntityRepositoryTest {
 
     @Autowired // Note this is needed Lombok constructors do not work

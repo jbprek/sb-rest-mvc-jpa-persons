@@ -9,9 +9,8 @@ services:
       - "MYSQL_ROOT_PASSWORD=root"
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d
+    networks:
+    - persons-net
 
 networks:
-  mysql-simple-net:
-
-
-
+  persons-net:
