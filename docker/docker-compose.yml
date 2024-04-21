@@ -1,7 +1,7 @@
 # Persons Database setup
 version: '3'
 services:
-  mysql-server:
+  persons-mysql-server:
     image: mysql:latest
     ports:
       - 3306:3306
