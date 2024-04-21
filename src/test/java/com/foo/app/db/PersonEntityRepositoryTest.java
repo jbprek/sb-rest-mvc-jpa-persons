@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 
@@ -17,7 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 /* Note the following is needed to use a MySQL test datasource, otherwise H2 is used by default */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-
+/* Note the following is needed to override the main @Bean configured DataSource */
+@TestPropertySource(properties = {
+        "spring.datasource.url=jdbc:mysql://localhost:3306/test_persons", // Configure your custom DataSource properties
+        "spring.datasource.username=test_persons",
+        "spring.datasource.password=test_persons"
+})
 class PersonEntityRepositoryTest {
 
     @Autowired // Note this is needed Lombok constructors do not work
