@@ -6,6 +6,7 @@ import com.foo.app.service.exception.PersonDaoNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,8 +17,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -56,8 +57,7 @@ public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
 
     /** Request Parameters Validation errors */
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var fieldErrors = ex.getBindingResult().getFieldErrors().stream()
                 .map(v -> new ErrorDto.ValidationError(v.getField(), v.getDefaultMessage()))
                 .collect(Collectors.toList());
@@ -66,13 +66,13 @@ public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
         log.error("handleExceptionInternal - Internal error", ex);
-        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
+        if (statusCode.is5xxServerError()) {
             request.setAttribute("javax.servlet.error.exception", ex, 0);
         }
 
-        return new ResponseEntity(body, headers, status);
+        return new ResponseEntity(body, headers, statusCode);
     }
 
     @ExceptionHandler(PersonDaoNotFoundException.class)
