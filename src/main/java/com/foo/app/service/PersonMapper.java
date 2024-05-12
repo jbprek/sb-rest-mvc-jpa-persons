@@ -13,18 +13,15 @@ import java.util.List;
  */
 @Mapper(componentModel = "spring")
 public interface PersonMapper {
-    PersonOutDto entityToDTO(PersonEntity project);
-    List<PersonOutDto> entitiesToDTOs(Iterable<PersonEntity> project);
-    /**
-     * DTO to Entity ignores DTO.id field
-     */
-    @Mapping(target = "id", ignore = true)
-    PersonEntity dtoToEntity(PersonInDto source);
-    /**
-     * Copy all non-null values from PersonDto source to PersonEntity target ('id' excluded)
-     */
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntity(PersonInDto source, @MappingTarget @NonNull PersonEntity target);
 
+    PersonOutDto toDto(PersonEntity entity);
+
+    List<PersonOutDto> toDTOs(Iterable<PersonEntity> entities);
+
+
+    PersonEntity toEntity(PersonInDto dto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    PersonEntity partialUpdate(PersonInDto dto, @MappingTarget PersonEntity personEntity);
 }
 

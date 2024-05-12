@@ -1,16 +1,19 @@
-# Persons Database setup
+#Bare bones 12c
 version: '3'
 services:
-  persons-mysql-server:
-    image: mysql:latest
+  ora21xe:
+    container_name: ora21xe
+    image: container-registry.oracle.com/database/express:21.3.0-xe
     ports:
-      - 3306:3306
+      - 1521:1521
+      - 5500:5500
     environment:
-      - "MYSQL_ROOT_PASSWORD=root"
+      - ORACLE_PWD=changeme
+      - AUTO_MEM_CALCULATION=true
     volumes:
-      - ./mysql/init:/docker-entrypoint-initdb.d
-    networks:
-    - persons-net
+      - oracle-data:/opt/oracle/oradata
+      - ./ora/init:/opt/oracle/scripts/startup
 
-networks:
-  persons-net:
+volumes:
+  oracle-data:
+

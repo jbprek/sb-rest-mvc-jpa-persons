@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PersonMapperTest {
+class PersonEntityMapperTest {
     PersonMapper mapper = new PersonMapperImpl();
 
     @DisplayName("Test entity to DTO mapping, method PersonMapper#entityToDTO")

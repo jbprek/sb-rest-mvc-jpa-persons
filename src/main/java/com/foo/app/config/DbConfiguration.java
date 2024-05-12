@@ -7,16 +7,17 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
-
 @Configuration
 @Slf4j
 public class DbConfiguration {
 
+
     @Bean
-    @ConfigurationProperties("app.datasource")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+    @ConfigurationProperties(prefix = "app.persons-ds.hikari")
+    public HikariDataSource hikariDataSource() {
+        return DataSourceBuilder.create()
+                .type(HikariDataSource.class)
+                .build();
     }
 
 }

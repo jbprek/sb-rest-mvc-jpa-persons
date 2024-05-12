@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.username=test_persons",
         "spring.datasource.password=test_persons"
 })
-class PersonEntityRepositoryTest {
+class PersonEntityEntityRepositoryTest {
 
 
     @Autowired // Note this is needed Lombok constructors do not work
