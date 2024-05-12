@@ -1,6 +1,6 @@
 # Spring Boot 2.7.x Application Template
 
-Spring Boot, MVC Rest , JPA
+Spring Boot, MVC Rest , JPA, Oracle, Flyway, MapStruct, Lombok, Validation, Error Handling, Postman Collection
 
 ## Supported versions dbs
 

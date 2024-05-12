@@ -2,6 +2,7 @@ package com.foo.app.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 /**
  * DTO for {@link com.foo.app.db.PersonEntity}
  */
+@Builder
 @AllArgsConstructor
 @Getter
 @ToString
