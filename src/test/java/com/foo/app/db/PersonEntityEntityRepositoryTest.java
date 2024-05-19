@@ -19,10 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 /* Note the following is needed to use a MySQL test datasource, otherwise H2 is used by default */
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 /* Note the following is needed to override the main @Bean configured DataSource */
-@TestPropertySource(properties = {
-        "spring.datasource.url=${test.datasource.url}", // Configure your custom DataSource properties
-        "spring.datasource.username=${test.datasource.username}",
-        "spring.datasource.password=${test.datasource.password}"
+@TestPropertySource
+        (properties = {
+        "spring.datasource.url=${app.persons-ds.url}", // Configure your custom DataSource properties
+        "spring.datasource.username=${app.persons-ds.username}",
+        "spring.datasource.password=${app.persons-ds.password}"
 })
 class PersonEntityEntityRepositoryTest {
 
