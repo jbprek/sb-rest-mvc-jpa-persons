@@ -7,9 +7,11 @@ docker-compose up -d
 ```
 
 ## 2. Initialize schema PERSONS
-Run in terminal the following command:
+Run in terminal the following commands:
 ```shell
 mvn flyway:migrate
+
+mvn flyway:migrate -PTestSchema
 ```
 
 

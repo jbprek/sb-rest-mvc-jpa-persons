@@ -13,7 +13,10 @@ services:
     volumes:
       - oracle-data:/opt/oracle/oradata
       - ./ora/init:/opt/oracle/scripts/startup
-
+    networks:
+      oracle-xe:
 volumes:
   oracle-data:
+networks:
+  oracle-xe:
 
