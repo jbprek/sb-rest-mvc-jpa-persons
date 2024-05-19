@@ -66,7 +66,7 @@ public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex,Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.error("handleExceptionInternal - Internal error", ex);
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute("javax.servlet.error.exception", ex, 0);

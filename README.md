@@ -16,7 +16,7 @@ Spring Boot, MVC Rest , JPA, Oracle, Flyway, MapStruct, Lombok, Validation, Erro
 - Flyway
 - MapStruct (w Lombok)
 - Error Handling
-- Validation (Groups)
+- Validation (Groups)  TODO check update validations do not work
 - Postman Collection
 - TODO Controller test, Service Integration test
 - TODO OpenAPI 

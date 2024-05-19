@@ -8,8 +8,7 @@ CREATE TABLE persons
     birth_date date,
     country    VARCHAR2(255),
     version    NUMBER(38, 0),
-    CONSTRAINT pk_persons PRIMARY KEY (person_id)
-);
+    CONSTRAINT pk_persons PRIMARY KEY (person_id),
+    CONSTRAINT uk_persons UNIQUE (first_name,last_name,birth_date,country)
 
-ALTER TABLE persons
-    ADD CONSTRAINT uniqueNameBodCountry UNIQUE (first_name, last_name, birth_date, country);
+);
