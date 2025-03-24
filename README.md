@@ -1,6 +1,8 @@
 # Spring Boot 2.7.x Application Template
 
-Spring Boot, MVC Rest , JPA
+BOOT 2.7 Oracle
+
+Spring Boot, MVC Rest , JPA, Oracle, Flyway, MapStruct, Lombok, Validation, Error Handling, Postman Collection
 
 ## Supported versions dbs
 
@@ -8,18 +10,30 @@ Spring Boot, MVC Rest , JPA
 - branch sb-2.7-h2     : Boot 2.7 H2
 
 ## Features & Frameworks
+- Oracle XE 21 docker
+- Flyway migrations
 - MVC
 - JPA
-- H2
+- Oracle
+- Flyway
 - MapStruct (w Lombok)
 - Error Handling
-- Validation (Groups)
+- Validation (Groups)  TODO check update validations do not work
 - Postman Collection
--  TODO Controller test, Service Integration test
+- TODO Controller test, Service Integration test
 - TODO OpenAPI 
 - TODO Security SSL
 
 ## Use Cases
+
+## Docker Oracle XE 21
+1. Run Oracle docker instance
+2. Initialize schema PERSONS
+
+## Flyway
+1. Given the schema is created, run the flyway migrations, manually.
+2. Implemented with the use of Flyway maven plugin 
+
 - Create with validation
 - Update with Validation - partial update
 - Delete

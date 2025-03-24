@@ -3,6 +3,7 @@ package com.foo.app.db;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
@@ -11,24 +12,29 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "persons", uniqueConstraints = {
-        @UniqueConstraint(
-                name = "uniqueNameBodCountry",
-                columnNames = {"first_name", "last_name", "birth_date", "country"})
-})
+@Table(name = "PERSONS")
 public class PersonEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "person_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PERSONS_id_gen")
+    @SequenceGenerator(name = "PERSONS_id_gen", sequenceName = "PERSON_SEQ", allocationSize = 1)
+    @Column(name = "PERSON_ID", nullable = false)
     private Long id;
-    @Column(name = "first_name")
+
+    @Size(max = 255)
+    @Column(name = "FIRST_NAME")
     private String firstName;
-    @Column(name = "last_name")
+
+    @Size(max = 255)
+    @Column(name = "LAST_NAME")
     private String lastName;
-    @Column(name = "birth_date")
+
+    @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
-    @Column(name = "country")
+
+    @Size(max = 255)
+    @Column(name = "COUNTRY")
     private String country;
+
     @Version
     private Long version;
 

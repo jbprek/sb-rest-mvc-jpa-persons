@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface PersonEntityRepository extends JpaRepository<PersonEntity, Long> {
-
     @Modifying
     @Transactional
     @Query(value = "TRUNCATE TABLE persons", nativeQuery = true)

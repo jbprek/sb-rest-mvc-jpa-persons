@@ -25,9 +25,9 @@ public class PersonDaoServiceImpl implements PersonDaoService {
     @Override
     public PersonOutDto createPerson(PersonInDto dto) {
         try {
-            var entity = mapper.dtoToEntity(dto);
+            var entity = mapper.toEntity(dto);
             var resEntity = repository.save(entity);
-            return mapper.entityToDTO(resEntity);
+            return mapper.toDto(resEntity);
         } catch (Exception e) {
             var msg = "Failed to create Person: " + dto;
             log.error("{}, reason: {}", msg, e.toString());
@@ -40,13 +40,13 @@ public class PersonDaoServiceImpl implements PersonDaoService {
     public PersonOutDto getPerson(Long id) {
         var entity = repository.findById(id)
                 .orElseThrow(() -> new PersonDaoNotFoundException("Person Not found id: " + id));
-        return mapper.entityToDTO(entity);
+        return mapper.toDto(entity);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<PersonOutDto> getAll() {
-        return mapper.entitiesToDTOs(repository.findAll());
+        return mapper.toDTOs(repository.findAll());
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -54,9 +54,9 @@ public class PersonDaoServiceImpl implements PersonDaoService {
     public PersonOutDto updatePerson(Long id, PersonInDto dto) {
         try {
             var entity = getEntity(id);
-            mapper.updateEntity(dto, entity);
+            mapper.partialUpdate(dto, entity);
             var updatedEntity =  repository.save(entity);
-            return mapper.entityToDTO(updatedEntity);
+            return mapper.toDto(updatedEntity);
         } catch (Exception e) {
             var msg = "Failed to create Person: " + dto;
             log.error("{}, reason: {}", msg, e.toString());
