@@ -1,5 +1,7 @@
 # Spring Boot 2.7.x Application Template
 
+BOOT 2.7 Oracle
+
 Spring Boot, MVC Rest , JPA, Oracle, Flyway, MapStruct, Lombok, Validation, Error Handling, Postman Collection
 
 ## Supported versions dbs
