@@ -2,8 +2,8 @@ package com.foo.app.db;
 
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter

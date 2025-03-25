@@ -3,11 +3,13 @@ package com.foo.app.rest;
 import com.foo.app.service.exception.PersonDaoException;
 import com.foo.app.service.exception.PersonDaoExistsException;
 import com.foo.app.service.exception.PersonDaoNotFoundException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,8 +18,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +56,7 @@ public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
 
     /** Request Parameters Validation errors */
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, org.springframework.http.HttpStatusCode status, WebRequest request) {
 
         var fieldErrors = ex.getBindingResult().getFieldErrors().stream()
                 .map(v -> new ErrorDto.ValidationError(v.getField(), v.getDefaultMessage()))
@@ -65,15 +65,26 @@ public class PersonApiRestErrorHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, "Invalid payload", request, fieldErrors);
     }
 
+//    @Override
+//    protected ResponseEntity<Object> handleExceptionInternal(Exception ex,Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+//        log.error("handleExceptionInternal - Internal error", ex);
+//        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
+//            request.setAttribute("javax.servlet.error.exception", ex, 0);
+//        }
+//
+//        return new ResponseEntity(body, headers, status);
+//    }
+
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex,Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("handleExceptionInternal - Internal error", ex);
-        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
-            request.setAttribute("javax.servlet.error.exception", ex, 0);
+    protected ResponseEntity<Object> createResponseEntity(Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        log.error("handleExceptionInternal - Internal error");
+        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(statusCode)) {
+            request.setAttribute("jakarta.servlet.error.exception", body instanceof Exception ? body : null, 0);
         }
 
-        return new ResponseEntity(body, headers, status);
+        return new ResponseEntity<>(body, headers, statusCode);
     }
+
 
     @ExceptionHandler(PersonDaoNotFoundException.class)
     public ResponseEntity<Object> handlePersonDaoNotFoundException(PersonDaoNotFoundException itemNotFoundException, WebRequest request) {
